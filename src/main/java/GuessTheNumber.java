@@ -11,16 +11,12 @@ public class GuessTheNumber {
         boolean isValidName;
 
         do {
-            String name = scanner.nextLine();
-            isValidName = guessTheNumber.isValidName(name);
-            if (isValidName)
-                guessTheNumber.setName(name);
-            else
-                System.err.println("That name is invalid.");
+            guessTheNumber.setName(scanner.nextLine());
+            isValidName = guessTheNumber.isValidName(guessTheNumber.getName());
         } while (!isValidName);
 
-        System.out.println(String.format(guessTheNumber.getIntroductionResponse(), guessTheNumber.getName()));
 
+        System.out.println(String.format(guessTheNumber.getIntroductionResponse(), guessTheNumber.getName()));
             do
                 try {
                     guessTheNumber.setGuess(Integer.parseInt(scanner.nextLine()));
@@ -85,7 +81,11 @@ public class GuessTheNumber {
 
     public boolean isValidName(String name) {
         Pattern pattern = Pattern.compile("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
-        return pattern.matcher(name).matches();
+        if (pattern.matcher(name).matches())
+            return true;
+        else
+            System.err.println(String.format("%s is an invalid name. Please enter a valid name.", name));
+        return false;
     }
 
     public Integer getGuess() {
